@@ -18,6 +18,7 @@ import static org.openhab.binding.touchwand.internal.TouchWandBindingConstants.*
 import java.util.Arrays;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -55,6 +56,12 @@ public class TouchWandUnitFromJson {
                 break;
             case TYPE_SHUTTER:
                 touchWandUnit = gson.fromJson(jsonUnit, TouchWandShutterSwitchUnitData.class);
+                break;
+            case TYPE_ALARMSENSOR:
+                Gson builder = new GsonBuilder()
+                        .registerTypeAdapter(TouchWandUnitDataAlarmSensor.class, new AlarmSensorUnitDataDeserializer())
+                        .create();
+                touchWandUnit = builder.fromJson(jsonUnit, TouchWandUnitDataAlarmSensor.class);
                 break;
             default:
                 return null;

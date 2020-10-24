@@ -19,6 +19,7 @@ import java.util.Set;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.binding.touchwand.internal.dto.TouchWandUnitData;
+import org.openhab.binding.touchwand.internal.dto.TouchWandUnitFromJson;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
@@ -30,10 +31,6 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 /**
  * The {@link TouchWandBaseUnitHandler} is responsible for handling commands and status updates
@@ -48,7 +45,7 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
 
     protected final Logger logger = LoggerFactory.getLogger(TouchWandBaseUnitHandler.class);
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Set.of(THING_TYPE_SHUTTER, THING_TYPE_SWITCH,
-            THING_TYPE_WALLCONTROLLER, THING_TYPE_DIMMER);
+            THING_TYPE_WALLCONTROLLER, THING_TYPE_DIMMER, THING_TYPE_ALARMSENSOR);
     protected String unitId = "";
 
     protected @Nullable TouchWandBridgeHandler bridgeHandler;
@@ -60,7 +57,10 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         if (command instanceof RefreshType) {
-            // updateTouchWandUnitState(getUnitState(unitId));
+            TouchWandUnitData myUnitData = getUnitState(unitId);
+            if (myUnitData != null) {
+                updateTouchWandUnitState(myUnitData);
+            }
         } else {
             touchWandUnitHandleCommand(command);
         }
@@ -100,6 +100,7 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
                 thingReachable = !response.isEmpty();
                 if (thingReachable) {
                     updateStatus(ThingStatus.ONLINE);
+                    updateTouchWandUnitState(TouchWandUnitFromJson.parseResponse(response));
                 } else {
                     updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR);
                 }
@@ -107,33 +108,19 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
         });
     }
 
-    @SuppressWarnings("unused") // not used at the moment till touchWand state in hub will be fixed
-    private int getUnitState(String unitId) {
-        int status = 0;
-
+    private @Nullable TouchWandUnitData getUnitState(String unitId) {
         TouchWandBridgeHandler touchWandBridgeHandler = bridgeHandler;
+
         if (touchWandBridgeHandler == null) {
-            return status;
+            return null;
         }
 
         String response = touchWandBridgeHandler.touchWandClient.cmdGetUnitById(unitId);
         if (!response.isEmpty()) {
-            return status;
+            return null;
         }
 
-        JsonParser jsonParser = new JsonParser();
-
-        try {
-            JsonObject unitObj = jsonParser.parse(response).getAsJsonObject();
-            status = unitObj.get("currStatus").getAsInt();
-            if (!this.getThing().getStatusInfo().getStatus().equals(ThingStatus.ONLINE)) {
-                updateStatus(ThingStatus.ONLINE);
-            }
-        } catch (JsonParseException | IllegalStateException e) {
-            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                    "Could not parse cmdGetUnitById:" + e.getMessage());
-        }
-        return status;
+        return TouchWandUnitFromJson.parseResponse(response);
     }
 
     abstract void touchWandUnitHandleCommand(Command command);
