@@ -23,18 +23,10 @@ public class TouchWandUnitDataAlarmSensor extends TouchWandUnitData {
 
     public TouchWandAlarmSensorCurrentStatus currStatus = new TouchWandAlarmSensorCurrentStatus();
 
-    public void setCurrStatus(TouchWandAlarmSensorCurrentStatus currStatus) {
-        this.currStatus = currStatus;
-    }
-
     @Override
     public TouchWandAlarmSensorCurrentStatus getCurrStatus() {
         return this.currStatus;
     }
-
-    // public List<Sensor> getSensors() {
-    // return sensors;
-    // }
 
     public class AlarmEventType {
         public int eventsNum;
