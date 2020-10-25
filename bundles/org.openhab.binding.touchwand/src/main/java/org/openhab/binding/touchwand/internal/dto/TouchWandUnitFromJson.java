@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
  *
  * @author Roie Geron - Initial contribution
  */
+
 public class TouchWandUnitFromJson {
 
     public TouchWandUnitFromJson() {

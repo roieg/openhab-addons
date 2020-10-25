@@ -15,6 +15,7 @@ package org.openhab.binding.touchwand.internal;
 import static org.openhab.binding.touchwand.internal.TouchWandBindingConstants.*;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -43,6 +44,7 @@ import org.slf4j.LoggerFactory;
 @NonNullByDefault
 public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implements TouchWandUnitUpdateListener {
 
+    private static final int UNITS_STATUS_UPDATE_DELAY_SEC = 1;
     protected final Logger logger = LoggerFactory.getLogger(TouchWandBaseUnitHandler.class);
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Set.of(THING_TYPE_SHUTTER, THING_TYPE_SWITCH,
             THING_TYPE_WALLCONTROLLER, THING_TYPE_DIMMER, THING_TYPE_ALARMSENSOR);
@@ -93,7 +95,7 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
         }
 
         updateStatus(ThingStatus.UNKNOWN);
-        scheduler.execute(() -> {
+        scheduler.schedule(() -> {
             boolean thingReachable = false;
             if (myTmpBridgeHandler != null) {
                 String response = myTmpBridgeHandler.touchWandClient.cmdGetUnitById(unitId);
@@ -105,7 +107,7 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
                     updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR);
                 }
             }
-        });
+        }, UNITS_STATUS_UPDATE_DELAY_SEC, TimeUnit.SECONDS);
     }
 
     private @Nullable TouchWandUnitData getUnitState(String unitId) {
@@ -116,7 +118,7 @@ public abstract class TouchWandBaseUnitHandler extends BaseThingHandler implemen
         }
 
         String response = touchWandBridgeHandler.touchWandClient.cmdGetUnitById(unitId);
-        if (!response.isEmpty()) {
+        if (response.isEmpty()) {
             return null;
         }
 

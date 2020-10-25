@@ -21,7 +21,7 @@ package org.openhab.binding.touchwand.internal.dto;
  */
 public class TouchWandUnitDataAlarmSensor extends TouchWandUnitData {
 
-    public TouchWandAlarmSensorCurrentStatus currStatus = new TouchWandAlarmSensorCurrentStatus();
+    private TouchWandAlarmSensorCurrentStatus currStatus = new TouchWandAlarmSensorCurrentStatus();
 
     @Override
     public TouchWandAlarmSensorCurrentStatus getCurrStatus() {
