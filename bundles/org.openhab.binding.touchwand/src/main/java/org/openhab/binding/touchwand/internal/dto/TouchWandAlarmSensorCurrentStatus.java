@@ -16,6 +16,8 @@ package org.openhab.binding.touchwand.internal.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link TouchWandAlarmSensorCurrentStatus} implements Alarm Sensor unit
  * CurrentStatus data property.
@@ -23,9 +25,10 @@ import java.util.List;
  * @author Roie Geron - Initial contribution
  */
 
+@NonNullByDefault
 public class TouchWandAlarmSensorCurrentStatus {
 
-    private Integer batt;
+    private int batt;
     private List<Sensor> sensorsStatus = new ArrayList<Sensor>();
     private List<AlarmEvent> alarmsStatus = new ArrayList<AlarmEvent>();
     private List<bSensorEvent> bSensorsStatus = new ArrayList<bSensorEvent>();
@@ -34,7 +37,7 @@ public class TouchWandAlarmSensorCurrentStatus {
         this.batt = batt;
     }
 
-    public Integer getBatt() {
+    public int getBatt() {
         return batt;
     }
 
@@ -63,18 +66,18 @@ public class TouchWandAlarmSensorCurrentStatus {
     }
 
     public class Alarm {
-        public Integer event;
+        public int event;
         public long ts;
     }
 
     public class AlarmEvent {
-        Integer alarmType;
-        Alarm alarm;
+        int alarmType;
+        Alarm alarm = new Alarm();
     }
 
     public class Sensor {
-        public Integer type;
-        public Float value;
+        public int type;
+        public float value;
     }
 
     public class bSensor {
@@ -83,7 +86,7 @@ public class TouchWandAlarmSensorCurrentStatus {
     }
 
     public class bSensorEvent {
-        public Integer sensorType;
-        public bSensor sensor;
+        public int sensorType;
+        public bSensor sensor = new bSensor();
     }
 }
