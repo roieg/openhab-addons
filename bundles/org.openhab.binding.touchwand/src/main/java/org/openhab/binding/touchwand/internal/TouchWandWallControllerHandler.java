@@ -55,7 +55,6 @@ public class TouchWandWallControllerHandler extends TouchWandBaseUnitHandler {
             int value = status.getKeyAttr();
             String action = (value <= 100) ? "SHORT" : "LONG";
             triggerChannel(CHANNEL_WALLCONTROLLER_ACTION, action);
-            logger.debug("Unit {} pressed {}", unitData.getName(), action);
         }
         timeLastEventMs = status.getTs();
     }

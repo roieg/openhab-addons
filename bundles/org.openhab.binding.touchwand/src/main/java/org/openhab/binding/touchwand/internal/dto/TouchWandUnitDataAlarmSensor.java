@@ -13,12 +13,15 @@
 
 package org.openhab.binding.touchwand.internal.dto;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link TouchWandUnitDataAlarmSensor} implements Alarm Sensor unit
  * data property.
  *
  * @author Roie Geron - Initial contribution
  */
+@NonNullByDefault
 public class TouchWandUnitDataAlarmSensor extends TouchWandUnitData {
 
     private TouchWandAlarmSensorCurrentStatus currStatus = new TouchWandAlarmSensorCurrentStatus();
@@ -30,11 +33,11 @@ public class TouchWandUnitDataAlarmSensor extends TouchWandUnitData {
 
     public class AlarmEventType {
         public int eventsNum;
-        public String description;
+        public String description = "";
     }
 
     public class SensorType {
-        public Integer type;
-        public String description;
+        public int type;
+        public String description = "";
     }
 }

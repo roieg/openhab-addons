@@ -13,11 +13,14 @@
 
 package org.openhab.binding.touchwand.internal.dto;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link Csc} implements Csc data class.
  *
  * @author Roie Geron - Initial contribution
  */
+@NonNullByDefault
 public class Csc {
 
     private int sceneNo = 0;

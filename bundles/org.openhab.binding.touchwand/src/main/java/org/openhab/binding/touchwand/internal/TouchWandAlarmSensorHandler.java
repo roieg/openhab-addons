@@ -77,7 +77,7 @@ public class TouchWandAlarmSensorHandler extends TouchWandBaseUnitHandler {
         Iterator<Sensor> iter = unitData.getCurrStatus().getSensorsStatus().iterator();
         while (iter.hasNext()) {
             Sensor mySensor = iter.next();
-            if (mySensor.type == SENSOR_TYPE_LUMINACE) {
+            if (mySensor.type == SENSOR_TYPE_LUMINANCE) {
                 updateState(CHANNEL_ILLUMINATION, new DecimalType(mySensor.value));
             }
         }
