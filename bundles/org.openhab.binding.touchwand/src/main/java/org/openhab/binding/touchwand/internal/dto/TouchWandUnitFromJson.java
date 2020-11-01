@@ -88,7 +88,7 @@ public class TouchWandUnitFromJson {
         try {
             unitObj = jsonParser.parse(JsonUnit).getAsJsonObject();
             myTouchWandUnitData = parseResponse(unitObj);
-        } catch (JsonParseException e) {
+        } catch (JsonParseException | IllegalStateException e) {
             logger.warn("Could not parse response {}", JsonUnit);
             myTouchWandUnitData = new TouchWandUnknownTypeUnitData(); // Return unknown type
         }
