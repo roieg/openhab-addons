@@ -90,9 +90,7 @@ public class TouchWandUnitDiscoveryService extends AbstractDiscoveryService
                     for (JsonElement unit : jsonArray) {
                         TouchWandUnitData touchWandUnit;
                         touchWandUnit = TouchWandUnitFromJson.parseResponse(unit.getAsJsonObject());
-                        if (touchWandUnit == null) {
-                            continue;
-                        }
+
                         if (!touchWandBridgeHandler.isAddSecondaryControllerUnits()) {
                             if (!Arrays.asList(CONNECTIVITY_OPTIONS).contains(touchWandUnit.getConnectivity())) {
                                 continue;

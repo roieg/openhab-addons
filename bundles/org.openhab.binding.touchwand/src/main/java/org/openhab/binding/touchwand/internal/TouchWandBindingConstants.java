@@ -90,6 +90,7 @@ public class TouchWandBindingConstants {
     public static final String TYPE_SHUTTER = "shutter";
     public static final String TYPE_DIMMER = "dimmer";
     public static final String TYPE_ALARMSENSOR = "AlarmSensor";
+    public static final String TYPE_UNKNOWN = "unknown";
 
     public static final Integer SENSOR_TYPE_TEMPERATURE = 1;
     public static final Integer SENSOR_TYPE_LUMINANCE = 3;
