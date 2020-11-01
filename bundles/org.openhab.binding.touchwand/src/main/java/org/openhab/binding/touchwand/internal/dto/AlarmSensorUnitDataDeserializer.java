@@ -52,6 +52,8 @@ public class AlarmSensorUnitDataDeserializer implements JsonDeserializer<TouchWa
             touchWandUnitDataAlarmSensor.setConnectivity(jsonObject.get("connectivity").getAsString());
             touchWandUnitDataAlarmSensor.setType(jsonObject.get("type").getAsString());
             touchWandUnitDataAlarmSensor.setHasBattery(jsonObject.get("hasBattery").getAsBoolean());
+            touchWandUnitDataAlarmSensor.setHasPowerMeter(jsonObject.get("hasPowerMeter").getAsBoolean());
+
             if (!jsonObject.get("status").isJsonNull()) { // Sometimes status in null
                 touchWandUnitDataAlarmSensor.setStatus(jsonObject.get("status").getAsString());
             }
