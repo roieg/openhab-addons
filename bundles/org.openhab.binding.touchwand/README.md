@@ -16,7 +16,7 @@ This binding supports switches, shutters dimmers alarm sensors and wall controll
 2. **shutter** - control - UP/DOWN/STOP
 3. **dimmer**  - control - ON/OFF/BRIGHTNESS
 4. **wallcontroller** - control - LONG/SHORT
-5. **alarmmensor** - status channels depend on alarm sensor type
+5. **alarmsensor** - status channels depend on alarm sensor type
 
 ## Discovery
 
@@ -30,7 +30,7 @@ After adding TouchWand Hub the auto discovery will add all switches dimmers alar
 |-------------------|-----------------------------------------------------------------------|---------|----------|
 | username          | Touchwand hub username                                                | string  | yes      |
 | password          | Touchwand hub password                                                | string  | yes      |
-| ipAddress         | Touchwand hub hotname or IP address                                   | string  | yes      |
+| ipAddress         | Touchwand hub hostname or IP address                                  | string  | yes      |
 | port              | Management port (default 80)                                          | integer | no       |
 | statusrefresh     | Unit status refresh interval in seconds                               | integer | no       |
 | addSecondaryUnits | If the controller is primary, add secondary controllers units as well | bool    | no       |
@@ -40,6 +40,32 @@ After adding TouchWand Hub the auto discovery will add all switches dimmers alar
 ## Thing Configuration
 
 No thing configuration is needed
+
+## Channels 
+
+
+note **Touchwand Wanderfull™** supports various types of alarm sensors such as water leak, door/window sensor and motion sensor.
+in order to keep the Alarm Sensor generic and support all AlarmSensor types, All the alarm sensor channels are available for each sensor
+but only the relevant ones will be updates with the relevant values.
+It is the user responsibility to use the proper channels for the sensors.
+
+
+| Channel Type ID   | Item Type          | Description                                                                                                                             
+|-------------------|--------------------|-----------------------------------------------------------------------|
+| switch            | Switch             | This channel supports switching the device on and off.                |
+| shutter           | Rollershutter      | This channel controls the shutter position                            |
+| brightness        | Dimmer             | This channel supports adjusting the brightness value.                 |
+| illumination      | Number:Illuminance | This channel shows the current illuminance measured by the sensor.    |
+| temperature       | Number:Temperature | This channel shows the current temperature measured by the sensor.    |
+| leak              | Switch             | This channel alert when water leak is detected by the sensor          |
+| motion            | Switch             | This channel alert when motion detected by the sensor.                |
+| isOpen            | Contact            | This channel shows the status of Door/Window sensor.                  |
+| battery_level     | Number             | This channel shows the battery level.                                 |
+| battery_low       | Switch             | This channel indicates whether the battery is low or not.             |
+| wallaction        | String             | This channel indicate SHORT or LONG wallcontroller button pressed     |
+
+
+
 
 ## Full Example
 

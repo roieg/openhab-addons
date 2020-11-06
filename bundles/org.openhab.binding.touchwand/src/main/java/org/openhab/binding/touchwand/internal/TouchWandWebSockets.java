@@ -126,9 +126,9 @@ public class TouchWandWebSockets {
 
         @OnWebSocketClose
         public void onClose(int statusCode, String reason) {
-            logger.warn("Connection closed: {} - {}", statusCode, reason);
+            logger.debug("Connection closed: {} - {}", statusCode, reason);
             if (!isShutDown) {
-                logger.warn("weSocket Closed - reconnecting");
+                logger.debug("weSocket Closed - reconnecting");
                 asyncWeb();
             }
         }
