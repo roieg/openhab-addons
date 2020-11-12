@@ -14,8 +14,6 @@ package org.openhab.binding.touchwand.internal;
 
 import static org.openhab.binding.touchwand.internal.TouchWandBindingConstants.*;
 
-import java.util.List;
-
 import javax.measure.quantity.Illuminance;
 import javax.measure.quantity.Temperature;
 
@@ -58,10 +56,12 @@ public class TouchWandAlarmSensorHandler extends TouchWandBaseUnitHandler {
     public void initialize() {
         super.initialize();
 
-        List<Channel> channels = thing.getChannels();
-        ThingBuilder thingBuilder = editThing();
-        thingBuilder.withoutChannel(thing.getChannel(CHANNEL_ILLUMINATION));
-
+        Channel channel = thing.getChannel(CHANNEL_ILLUMINATION);
+        if (channel != null) {
+            ThingBuilder thingBuilder = editThing();
+            thingBuilder.withoutChannel(channel.getUID());
+            updateThing(thingBuilder.build());
+        }
     }
 
     @Override
