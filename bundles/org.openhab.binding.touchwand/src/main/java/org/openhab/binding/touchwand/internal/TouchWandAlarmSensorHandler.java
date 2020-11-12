@@ -14,6 +14,8 @@ package org.openhab.binding.touchwand.internal;
 
 import static org.openhab.binding.touchwand.internal.TouchWandBindingConstants.*;
 
+import java.util.List;
+
 import javax.measure.quantity.Illuminance;
 import javax.measure.quantity.Temperature;
 
@@ -24,7 +26,9 @@ import org.eclipse.smarthome.core.library.types.OpenClosedType;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
 import org.eclipse.smarthome.core.library.unit.SmartHomeUnits;
+import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.Thing;
+import org.eclipse.smarthome.core.thing.binding.builder.ThingBuilder;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.touchwand.internal.dto.TouchWandAlarmSensorCurrentStatus.BinarySensorEvent;
 import org.openhab.binding.touchwand.internal.dto.TouchWandAlarmSensorCurrentStatus.Sensor;
@@ -48,6 +52,16 @@ public class TouchWandAlarmSensorHandler extends TouchWandBaseUnitHandler {
 
     public TouchWandAlarmSensorHandler(Thing thing) {
         super(thing);
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+
+        List<Channel> channels = thing.getChannels();
+        ThingBuilder thingBuilder = editThing();
+        thingBuilder.withoutChannel(thing.getChannel(CHANNEL_ILLUMINATION));
+
     }
 
     @Override
