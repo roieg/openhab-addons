@@ -48,10 +48,6 @@ public class TouchWandUnitFromJson {
             type = TYPE_UNKNOWN;
         }
 
-        if (!jsonUnit.has("currStatus") || jsonUnit.get("currStatus").isJsonNull()) {
-            type = TYPE_UNKNOWN;
-        }
-
         switch (type) {
             case TYPE_WALLCONTROLLER:
                 touchWandUnit = gson.fromJson(jsonUnit, TouchWandUnitDataWallController.class);

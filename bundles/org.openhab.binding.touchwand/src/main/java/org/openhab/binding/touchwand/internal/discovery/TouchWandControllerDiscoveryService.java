@@ -121,6 +121,7 @@ public class TouchWandControllerDiscoveryService extends AbstractDiscoveryServic
         private static final int BUFFER_LENGTH = 256;
         private DatagramPacket dgram = new DatagramPacket(new byte[BUFFER_LENGTH], BUFFER_LENGTH);
         private DatagramSocket mySocket;
+        private JsonParser jsonParser = new JsonParser();
 
         public ReceiverThread(DatagramSocket socket) {
             mySocket = socket;
@@ -137,7 +138,7 @@ public class TouchWandControllerDiscoveryService extends AbstractDiscoveryServic
                     mySocket.receive(datagram);
                     InetAddress address = datagram.getAddress();
                     String sentence = new String(dgram.getData(), 0, dgram.getLength(), StandardCharsets.US_ASCII);
-                    JsonObject bridge = JsonParser.parseString(sentence).getAsJsonObject();//
+                    JsonObject bridge = jsonParser.parse(sentence).getAsJsonObject();
                     String name = bridge.get("name").getAsString();
                     addDeviceDiscoveryResult(name, address.getHostAddress().toString());
                     logger.debug("Received Datagram from {}:{} on Port {} message {}", address.getHostAddress(),
